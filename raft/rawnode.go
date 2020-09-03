@@ -16,6 +16,7 @@ package raft
 
 import (
 	"errors"
+	"fmt"
 
 	pb "go.etcd.io/etcd/v3/raft/raftpb"
 	"go.etcd.io/etcd/v3/raft/tracker"
@@ -238,4 +239,6 @@ func (rn *RawNode) TransferLeader(transferee uint64) {
 // processed safely. The read state will have the same rctx attached.
 func (rn *RawNode) ReadIndex(rctx []byte) {
 	_ = rn.raft.Step(pb.Message{Type: pb.MsgReadIndex, Entries: []pb.Entry{{Data: rctx}}})
+	fmt.Printf("Out of raft Step in ReadIndex for %x", rctx)
+
 }
